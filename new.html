@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <title>Node-Link Tree</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="stylesheet" href="new.css">
+</head>
+
+<body>
+  <div id="chart"></div>
+  <script>
+    //添加svg框
+    const svg = d3
+      .select("#chart")
+      .append("svg")
+      .attr("width", 1550)
+      .attr("height", 750)
+      .style("background", "#ECECF7");
+
+    //右半边数据
+    const data = {
+      name: "Major",
+      children: [
+        {
+          name: "Paramount",
+          children: [
+            {
+              name: "Norbit",
+            },
+            {
+              name: "Bee Movie",
+            },
+            {
+              name: "Beowulf",
+            },
+            {
+              name: "The Heartbreak Kid",
+            },
+            {
+              name: "The Kite Runner",
+            },
+            {
+              name: "Transformers",
+            },
+            {
+              name: "Next",
+            },
+            {
+              name: "Shooter",
+            },
+            {
+              name: "Disturbia",
+            },
+            {
+              name: "Zodiac",
+            },
+            {
+              name: "No Country for Old Men",
+            },
+            {
+              name: "Shrek the Third",
+            },
+            {
+              name: "Stardust",
+            },
+            {
+              name: "Into the Wild",
+            },
+            {
+              name: "Blades of Glory",
+            },
+            {
+              name: "There Will Be Blood",
+            },
+          ]
+        },
+        {
+          name: "Sony",
+          children: [
+            {
+              name: "Daddy Day Camp",
+            },
+            {
+              name: "Walk Hard: The Dewey Cox Story",
+            },
+            {
+              name: "Superbad",
+            },
+            {
+              name: "Surf's Up",
+            },
+            {
+              name: "Spider-Man 3",
+            },
+            {
+              name: "Ghost Rider",
+            },
+            {
+              name: "Vacancy",
+            },
+            {
+              name: "We Own the Night",
+            },
+            {
+              name: "Premonition",
+            },
+          ]
+        },
+        {
+          name: "The Weinstein Company",
+          children: [
+            {
+              name: "The Nanny Diaries",
+            },
+            {
+              name: "The Mist",
+            },
+            {
+              name: "Halloween",
+            },
+            {
+              name: "Grindhouse",
+            },
+            {
+              name: "Sicko",
+            },
+          ]
+        },
+        {
+          name: "Universal",
+          children: [
+            {
+              name: "I Now Pronounce You Chuck and Larry",
+            },
+            {
+              name: "Evan Almighty",
+            },
+            {
+              name: "Charlie Wilson's War",
+            },
+            {
+              name: "Knocked Up",
+            },
+            {
+              name: "Smokin' Aces",
+            },
+            {
+              name: "American Gangster",
+            },
+            {
+              name: "The Bourne Ultimatum",
+            },
+          ]
+        },
+        {
+          name: "Warner Bros.",
+          children: [
+            {
+              name: "The Bucket List",
+            },
+            {
+              name: "License to Wed",
+            },
+            {
+              name: "Music and Lyrics",
+            },
+            {
+              name: "The Invasion",
+            },
+            {
+              name: "Shoot 'Em Up",
+            },
+            {
+              name: "I Am Legend",
+            },
+            {
+              name: "Harry Potter and the Order of the Phoenix",
+            },
+            {
+              name: "Rush Hour 3",
+            },
+            {
+              name: "The Golden Compass",
+            },
+            {
+              name: "Ocean's 13",
+            },
+            {
+              name: "Sweeney Todd: The Demon Barber of Fleet Street",
+            },
+            {
+              name: "300",
+            },
+            {
+              name: "In the Land of Women",
+            },
+            {
+              name: "Hairspray",
+            },
+          ]
+        },
+        {
+          name: "(null)",
+          children: [
+            {
+              name: "No Reservations",
+            },
+            {
+              name: "TMNT",
+            },
+            {
+              name: "The Reaping",
+            },
+            {
+              name: "The Kingdom",
+            },
+            {
+              name: "Pathfinder: Legend of the Ghost Warrior",
+            },
+            {
+              name: "The Brave One",
+            },
+            {
+              name: "Average",
+            },
+          ]
+        },
+      ],
+    };
+
+    //左半边数据
+    const ldata = {
+      name: "Major Studio",
+      children: [
+        {
+          name: "Disney",
+          children: [
+            {
+              name: "The Game Plan",
+            },
+            {
+              name: "Enchanted",
+            },
+            {
+              name: "Meet the Robinsons",
+            },
+            {
+              name: "Pirates of the Caribbean: At World's End",
+            },
+            {
+              name: "National Treasure: Book of Secrets",
+            },
+            {
+              name: "Wild Hogs",
+            },
+            {
+              name: "Ratatouille",
+            },
+          ]
+        },
+        {
+          name: "Fox",
+          children: [
+            {
+              name: "Alvin and the Chipmunks",
+            },
+            {
+              name: "The Darjeeling Limited",
+            },
+            {
+              name: "The Simpsons Movie",
+            },
+            {
+              name: "Juno",
+            },
+            {
+              name: "Alien vs. Predator -- Requiem",
+            },
+            {
+              name: "Fantastic Four: Rise of the Silver Surfer",
+            },
+            {
+              name: "Hitman",
+            },
+            {
+              name: "Live Free or Die Hard",
+            },
+          ]
+        },
+        {
+          name: "Independent",
+          children: [
+            {
+              name: "Epic Movie",
+            },
+            {
+              name: "Saw IV",
+            },
+            {
+              name: "P.S. I Love You",
+            },
+            {
+              name: "Tyler Perry's Why Did I get Married",
+            },
+            {
+              name: "Across the Universe",
+            },
+            {
+              name: "Waitress",
+            },
+            {
+              name: "Stomp the Yard",
+            },
+            {
+              name: "The Hills Have Eyes 2",
+            },
+            {
+              name: "30 Days of Night",
+            },
+            {
+              name: "Lions for Lambs",
+            },
+            {
+              name: "Nancy Drew",
+            },
+            {
+              name: "Mr. Magorium's Wonder Emporium",
+            },
+            {
+              name: "Michael Clayton",
+            },
+          ]
+        },
+        {
+          name: "Lionsgate",
+          children: [
+            {
+              name: "Hostel: Part II",
+            },
+            {
+              name: "Good Luck Chuck",
+            },
+            {
+              name: "Happily N'Ever After",
+            },
+            {
+              name: "3:10 to Yuma",
+            },
+          ]
+        },
+        {
+          name: "Mediaplex",
+          children: [
+            {
+              name: "Dragon Wars (aka D-War)",
+            },
+          ]
+        },
+        {
+          name: "MGM",
+          children: [
+            {
+              name: "Mr. Brooks",
+            },
+          ]
+        },
+      ],
+    };
+
+    //右半边
+    const hierarchy = d3.hierarchy(data);//转化为层级结构
+    const tree = d3
+      .tree(hierarchy)
+      .size([2500, 1000])//树的大小，2500是纵向，1000是横向
+      .separation(function (a, b) {
+        return (a.parent == b.parent ? 1 : 2) / a.depth;
+      });
+    const treeData = tree(hierarchy);
+
+    //左半边
+    const hierarchy1 = d3.hierarchy(ldata);//转化为层级结构
+    const tree1 = d3
+      .tree(hierarchy1)
+      .size([2500, 1000])
+      .separation(function (a, b) {
+        return (a.parent == b.parent ? 1 : 2) / a.depth;
+      });
+    const treeData1 = tree1(hierarchy1);
+
+    //创建缩放行为
+    const zoomCall = d3.zoom().on("zoom", function (e) {
+      console.log(e.transform);
+    });
+    const zoomG = svg.append("g");
+    let translateStr = "";
+    let scaleStr = "";
+    svg.call(
+      d3.zoom().on("zoom", function (e) {
+        const { sourceEvent, transform } = e;
+        scaleStr = `scale(${transform.k})`;
+        translateStr = `translate(${transform.x}px,${transform.y}px)`;
+        zoomG.style("transform", `${translateStr} ${scaleStr}`);
+      })
+    );
+    const rightG = zoomG.append("g").style("transform", "translateX(550px)");
+    const leftG = zoomG.append("g");
+
+    //左半边结点
+    const lselection = leftG.selectAll("rect").data(treeData1.descendants());
+    lselection
+      .enter()
+      .append("rect")
+      .attr("x", (d) => 550 - d.y)
+      .attr("y", (d) => d.x - 25)
+      .attr("width", 150)
+      .attr("height", 50)
+      .attr("fill", "yellow");
+    lselection
+      .enter()
+      .append("text")
+      .attr("x", (d) => 550 - d.y + 80)
+      .attr("y", (d) => d.x + 5)
+      .attr("text-anchor", "middle")
+      .text((d) => d.data.name)
+
+    //左半边连接线
+    const llinkSel = leftG.selectAll("path").data(treeData1.links());
+    const ge1 = function (data) {
+      const { source, target } = data;
+      const point = [];
+      point.push([source.x + 100, source.y]);
+      point.push([source.x + 50, source.y]);
+      point.push([source.x + 50, target.y]);
+      point.push([target.x + 50, target.y]);
+      return "M" + point.join("L");
+    };
+    llinkSel
+      .enter()
+      .append("path")
+      .attr("d", (d) => {
+        const start = {
+          y: d.source.x,
+          x: 550 - (d.source.y + 100),
+        };
+        const end = {
+          y: d.target.x,
+          x: 550 - d.target.y + 100,
+        };
+        return ge1({
+          source: start,
+          target: end,
+        });
+      })
+      .attr("fill", "none")
+      .attr("stroke", "red")
+      .attr("stroke-width", "1");
+
+    //右半边结点
+    const selection = rightG.selectAll("rect").data(treeData.descendants());
+    selection
+      .enter()
+      .append("rect")
+      .attr("x", (d) => d.y)
+      .attr("y", (d) => d.x - 20)
+      .attr("width", 150)
+      .attr("height", 30)
+      .attr("fill", "yellow")
+    selection
+      .enter()
+      .append("text")
+      .attr("x", (d) => d.y + 70)
+      .attr("y", (d) => d.x)
+      .attr("text-anchor", "middle")
+      .text((d) => d.data.name);
+
+    //右半边连接线
+    const linkSel = rightG.selectAll("path").data(treeData.links());
+    const ge = function (data) {
+      const { source, target } = data;
+      const point = [];
+      point.push([source.x - 50, source.y]);
+      point.push([source.x + 50, source.y]);
+      point.push([source.x + 50, target.y]);
+      point.push([target.x, target.y]);
+      return "M" + point.join("L");
+    };
+    linkSel
+      .enter()
+      .append("path")
+      .attr("d", (d) => {
+        const start = {
+          y: d.source.x,
+          x: d.source.y + 200,
+        };
+        const end = {
+          y: d.target.x,
+          x: d.target.y,
+        };
+        return ge({
+          source: start,
+          target: end,
+        });
+      })
+      .attr("fill", "none")
+      .attr("stroke", "red")
+      .attr("stroke-width", "1");
+  </script>
+</body>
+
+</html>
